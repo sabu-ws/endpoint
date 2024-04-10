@@ -34,7 +34,7 @@
             <img src="{{  url_for('static',filename='assets/icons/shield-sabu.png') }}" alt="LOGO SABU">
         </div>
         <div class="flex items-center bg-white rounded-r-xl">
-            <form class="flex-col justify-center space-y-5 mx-8 w-80 p-4" action="#" method="POST"> <!-- URL -->
+            <form class="flex-col justify-center space-y-5 mx-8 w-80 p-4" action="{{ url_for('login.index') }}" method="POST"> <!-- URL -->
                 <!-- <input type="hidden" name="csrf_token" value=""/> csrf token--> 
                 <div class="flex justify-center">
                     <img src="{{ url_for('static',filename='assets/icons/logo-blue-sabu_endpoint.png') }}" width=60% height=20%>
