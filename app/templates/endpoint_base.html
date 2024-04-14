@@ -46,17 +46,15 @@
                     <!--  endif  -->
 
                     <div class="flex flex-col py-0.5 pl-10 pr-4">
-                        <strong class="text-slate-900 dark:text-white text-sm font-bold dark:text-slate-200">John Doe<!--
-                            current_user.firstname   current_user.name --></strong>
-                        <span class="text-slate-500 dark:text-white text-sm font-medium dark:text-slate-400">Support<!--
-                            session['job'] --></span>
+                        <strong class="text-slate-900 dark:text-white text-sm font-bold dark:text-slate-200">{{ session['firstname'] }} {{ session['name'] }}</strong>
+                        <span class="text-slate-500 dark:text-white text-sm font-medium dark:text-slate-400">{{ session['job'] }}</span>
                     </div>
                 </div>
                 <div id="dropdown-user"
                     class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-32 dark:bg-gray-700">
                     <ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
                         <li>
-                            <a href="#" 
+                            <a href="{{ url_for('login.logout') }}" 
                                 class="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:rounded-b-lg">
                                 <i class="fa-solid fa-right-from-bracket"></i>
                                 <h1>Sign out</h1>

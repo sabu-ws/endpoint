@@ -1,14 +1,24 @@
 from config import *
 
-from flask import Flask
+from flask import Flask, session
 from flask_socketio import SocketIO
 from flask_wtf.csrf import CSRFProtect, CSRFError
+from flask_session import Session
+from flask_login import (
+	UserMixin,
+	login_user,
+	LoginManager,
+	login_required,
+	logout_user,
+	current_user,
+)
 
 from app.utils.api import Api
 
 import logging
 import string
 import random
+import datetime
 
 log_format = "%(levelname)s [%(asctime)s] %(name)s  %(message)s"
 logging.basicConfig(format=log_format,level=logging.INFO,filename="/sabu/logs/endpoint/sabu.log",filemode="a")
@@ -20,11 +30,22 @@ app.config["SECRET_KEY"] = "".join(
 	random.choices(string.ascii_letters + string.digits, k=30)
 )
 
+app.config["SESSION_TYPE"] = 'filesystem'
+app.config["SESSION_KEY_PREFIX"] = "SABU_session_"
+app.config["SESSION_COOKIE_SECURE"] = True
+app.config["PERMANENT_SESSION_LIFETIME"] = datetime.timedelta(minutes=5)
+
 # socketio
 socketio = SocketIO(app)
 
-api = Api(SERVER_URL,TOKEN_API,HOSTNAME_ENDPOINT)
+# Api conf
+api = Api(app,SERVER_URL,TOKEN_API,HOSTNAME_ENDPOINT)
 api.connect()
+
+# # init login
+# login_manager = LoginManager()
+# login_manager.init_app(app)
+# login_manager.login_view = "login.index"
 
 # Import all views
 from app import views

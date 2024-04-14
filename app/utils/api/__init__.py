@@ -8,7 +8,8 @@ logging.basicConfig(format=log_format,level=logging.INFO,filename="/sabu/logs/en
 log = logging.getLogger("sabu.endpoint.apî")
 
 class Api:
-    def __init__(self,server_url,token,hostname):
+    def __init__(self,app,server_url,token,hostname):
+        self.app = app
         self.server_url = server_url
         self.token = token
         self.hostname = hostname
@@ -38,6 +39,15 @@ class Api:
         else:
             return callback_event
     
-    def login(self,username,password):
-        self.sio.emit("set_connection",{"username":username,"password":password})
+    def login(self,username,code):
+        self.username = username
+        self.sio.emit("set_connection",{"username":username,"code":code})
+        return self.receive()
+    
+    def logout(self):
+        self.sio.emit("set_disconnection")
+        return self.receive()
+    
+    def status_user(self):
+        self.sio.emit("status_user")
         return self.receive()
