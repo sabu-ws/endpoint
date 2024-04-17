@@ -7,6 +7,7 @@
     <link rel="icon" type="image/x-icon" href="{{ url_for('static',filename='assets/icons/favicon.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static',filename='assets/fontawesome/css/all.css') }}">
     <link rel="stylesheet" href="{{  url_for('static',filename='css/output.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/vikey.css') }}">
     <!-- Hidden button for input number -->
     <style>
         /* Chrome, Safari, Edge, Opera */
@@ -23,29 +24,24 @@
     </style>
 </head>
 <body class="bg-[#ccd8de]">
-    <!-- KEYBOARD -->
-    <div class="flex justify-end m-auto fixed right-4 bottom-2">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="15%"><path d="M64 64C28.7 64 0 92.7 0 128V384c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V128c0-35.3-28.7-64-64-64H64zm16 64h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V144c0-8.8 7.2-16 16-16zM64 240c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V240zm16 80h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V336c0-8.8 7.2-16 16-16zm80-176c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H176c-8.8 0-16-7.2-16-16V144zm16 80h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H176c-8.8 0-16-7.2-16-16V240c0-8.8 7.2-16 16-16zM160 336c0-8.8 7.2-16 16-16H400c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H176c-8.8 0-16-7.2-16-16V336zM272 128h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H272c-8.8 0-16-7.2-16-16V144c0-8.8 7.2-16 16-16zM256 240c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H272c-8.8 0-16-7.2-16-16V240zM368 128h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H368c-8.8 0-16-7.2-16-16V144c0-8.8 7.2-16 16-16zM352 240c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H368c-8.8 0-16-7.2-16-16V240zM464 128h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H464c-8.8 0-16-7.2-16-16V144c0-8.8 7.2-16 16-16zM448 240c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H464c-8.8 0-16-7.2-16-16V240zm16 80h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H464c-8.8 0-16-7.2-16-16V336c0-8.8 7.2-16 16-16z"/></svg>
-    </div>
-
     <!-- LOGIN SECTION -->
     <div class="h-screen flex justify-center items-center shadow-lg">
         <div class="flex bg-darkblue rounded-l-xl w-80">
             <img src="{{  url_for('static',filename='assets/icons/shield-sabu.png') }}" alt="LOGO SABU">
         </div>
         <div class="flex items-center bg-white rounded-r-xl">
-            <form class="flex-col justify-center space-y-5 mx-8 w-80 p-4" action="{{ url_for('login.index') }}" method="POST"> <!-- URL -->
+            <form class="flex-col justify-center space-y-5 mx-8 w-80 p-4" action="{{ url_for('login.index') }}" method="POST">
                 <!-- <input type="hidden" name="csrf_token" value=""/> csrf token--> 
                 <div class="flex justify-center">
                     <img src="{{ url_for('static',filename='assets/icons/logo-blue-sabu_endpoint.png') }}" width=60% height=20%>
                 </div>
                 <h1 class="text-xl">Sign In</h1>
                 <div class="relative z-0">
-                    <input type="text" name="username" id="usernameInput" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-darkblue peer" placeholder=" " required />
+                    <input type="text" name="username" id="usernameInput" class="vikey vk-username block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-darkblue peer" placeholder=" " required />
                     <label for="usernameInput" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-darkblue peer-focus:dark:text-darkblue peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Username</label>
                 </div>
                 <div class="relative z-0">
-                    <input type="number" maxlength=6 name="code" id="codeInput" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-darkblue peer" placeholder=" " required />
+                    <input type="number" name="code" id="codeInput" class="vikey vk-code block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-darkblue peer" placeholder=" " required />
                     <label for="codeInput" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-darkblue peer-focus:dark:text-darkblue peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Code</label>
                 </div>
                 <div class="flex justify-center mt-42">
@@ -88,6 +84,7 @@
     <!-- js view mdp -->
     <script src="{{ url_for('static',filename='node_modules/flowbite/dist/flowbite.min.js') }}"></script>
     <script src="{{ url_for('static',filename='js/modules/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/modules/vikey.js') }}"></script>
     <script src="{{ url_for('static',filename='js/scripts/main.js') }}"></script>
     <script type="text/javascript">
         var con = "{{ con }}"

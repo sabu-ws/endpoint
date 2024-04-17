@@ -1,0 +1,67 @@
+.vk-ref {position: relative; }	/* Relative positioning */
+.vk-kbd {
+
+	/* Positionnement */
+	position: absolute;
+	bottom: 0%;
+
+	/* top: 200px;
+	left: 50px; */
+	z-index: 999;
+
+	/* Layout */
+	margin: 0;
+	padding: 6px;
+
+	/* Habillage */
+	list-style: none;
+	background-color: Gainsboro;
+	border-radius: 5px;
+
+}
+	.vk-kbd .vk-key {
+		color: #585858;
+		font-size: large;
+		cursor: pointer;
+		display: block;	/* Modèle block pour centrer horizontalement */
+		text-align: center;
+	}
+	.vk-kbd .vk-key-empty {
+		
+	}
+	.vk-kbd ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.vk-kbd ul::after {
+		/* Clearfix */
+		content: "";
+		clear: both;
+		display: block;
+	}
+	.vk-kbd li {
+
+		/* Layout */
+		align-content: center;
+		width: 48px;
+		height: 48px;
+		line-height: 48px;	/* Astuce pour centrer verticalement */
+
+		/* Habillage */
+		float: left;
+		background-color: white;
+		border-radius: 5px;
+
+		/* Animations */
+		-webkit-transition: background .5s ease-out;
+		-o-transition: background .5s ease-out;
+		-moz-transition: background .5s ease-out;
+		transition: background .5s ease-out;
+		
+	}
+	.vk-kbd ul:not(:last-child) { margin-bottom: 4px; }
+	.vk-kbd li:not(:last-child) { margin-right: 4px; }
+	.vk-kbd li.invisible { opacity: 0; }
+	.vk-kbd li:active .vk-key { color: white; }
+	.vk-kbd li:hover { background-color: LightGray; }
