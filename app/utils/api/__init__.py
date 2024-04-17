@@ -15,6 +15,8 @@ log = logging.getLogger("sabu.endpoint.apî")
 class Api:
     def __init__(self,app,server_url,token,hostname):
         self.app = app
+        if server_url[-1] == "/":
+            server_url=server_url[:-1]
         self.server_url = server_url
         self.token = token
         self.hostname = hostname
@@ -44,18 +46,23 @@ class Api:
     
     def login(self,username,code):
         data = {"username":username,"code":code} 
-        req = requests.post("https://172.16.24.69/api/v2/set_connection", verify=False,data=data,headers=self.headers)
+        req = requests.post(self.server_url+ "/api/v2/set_connection", verify=False,data=data,headers=self.headers)
         if req.cookies:
             self.cookies = req.cookies
         return req.json()
     
     def logout(self):
-        req = requests.post("https://172.16.24.69/api/v2/set_deconnection", verify=False,headers=self.headers,cookies=self.cookies)
+        req = requests.post(self.server_url+"/api/v2/set_deconnection", verify=False,headers=self.headers,cookies=self.cookies)
         if req.cookies:
             self.cookies = req.cookies
         return req.json()
 
     
     def status_user(self):
-        req = requests.get("https://172.16.24.69/api/v2/status_user", verify=False,headers=self.headers,cookies=self.cookies)
+        req = requests.get(self.server_url+"/api/v2/status_user", verify=False,headers=self.headers,cookies=self.cookies)
+        return req.json()
+    
+    def get_path(self,path):
+        url = self.server_url+"/api/v2/get_files/path/"+path
+        req = requests.get(url, verify=False,headers=self.headers,cookies=self.cookies)
         return req.json()

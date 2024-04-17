@@ -62,11 +62,15 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="bodyBrowser">
                             {% for dir in items_dir %}
                             <tr class="bg-white border-b dark:bg-gray-600 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer">
                                 <th scope="row" class="onclick_object px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {% if cur_dir == '' %}
+                                    <a href="{{ url_for('browser.usb_path') }}{{ dir }}" class="location"></a>
+                                    {% else %}
                                     <a href="{{ url_for('browser.usb_path') }}{{ cur_dir }}/{{ dir }}" class="location"></a>
+                                    {% endif %}
                                     <div class="flex items-center">
                                         <div class="flex-shrink-0">
                                             <svg class="fill-yellow-300" xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512"><path d="M64 480H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H288c-10.1 0-19.6-4.7-25.6-12.8L243.2 57.6C231.1 41.5 212.1 32 192 32H64C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64z"/></svg>
@@ -79,7 +83,7 @@
                                 <td class="onclick_object px-6 py-4">
                                     Folder
                                 </td>
-                                <td class="onclick_object px-6 py-4">
+                                <td class="px-6 py-4">
                                     <div class="space-x-2">
                                         <button data-modal-show="DeleteFolder" data-modal-target="DeleteFolder" title="Delete Folder" class="delete_object_name"><p class=" font-medium text-red-600 dark:text-red-500 hover:text-gray-500 hover:underline dark:hover:text-white text-lg"><i class="fa-solid fa-trash-can"></i></p></button>
                                     </div>
