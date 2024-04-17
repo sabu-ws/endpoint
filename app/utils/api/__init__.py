@@ -1,7 +1,12 @@
+from flask import jsonify
 import requests
 import socketio
 from socketio.exceptions import TimeoutError
 import logging
+
+import urllib3
+
+urllib3.disable_warnings()
 
 log_format = "%(levelname)s [%(asctime)s] %(name)s  %(message)s"
 logging.basicConfig(format=log_format,level=logging.INFO,filename="/sabu/logs/endpoint/sabu.log",filemode="a")
@@ -18,15 +23,13 @@ class Api:
         http_session = requests.Session()
         http_session.verify = False
         self.sio = socketio.SimpleClient(http_session=http_session)
+        self.headers = {"X-SABUAPITOKEN":self.token,
+                "X-SABUHOSTNAME":self.hostname}
+        self.cookies = {}
     
     def connect(self):
-        headers={"X-SABUAPITOKEN":self.token,
-                "X-SABUHOSTNAME":self.hostname}
-        self.sio.connect(self.server_url,namespace=self.namespace,headers=headers,transports="websocket")
+        self.sio.connect(self.server_url,namespace=self.namespace,headers=self.headers,transports="websocket")
         self.sio.emit("join")
-
-    def get_instance(self):
-        return self.sio
     
     def receive(self):
         try:
@@ -40,14 +43,19 @@ class Api:
             return callback_event
     
     def login(self,username,code):
-        self.username = username
-        self.sio.emit("set_connection",{"username":username,"code":code})
-        return self.receive()
+        data = {"username":username,"code":code} 
+        req = requests.post("https://172.16.24.69/api/v2/set_connection", verify=False,data=data,headers=self.headers)
+        if req.cookies:
+            self.cookies = req.cookies
+        return req.json()
     
     def logout(self):
-        self.sio.emit("set_disconnection")
-        return self.receive()
+        req = requests.post("https://172.16.24.69/api/v2/set_deconnection", verify=False,headers=self.headers,cookies=self.cookies)
+        if req.cookies:
+            self.cookies = req.cookies
+        return req.json()
+
     
     def status_user(self):
-        self.sio.emit("status_user")
-        return self.receive()
+        req = requests.get("https://172.16.24.69/api/v2/status_user", verify=False,headers=self.headers,cookies=self.cookies)
+        return req.json()
