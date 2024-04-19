@@ -27,7 +27,8 @@ def usb_path(MasterListDir=""):
 		items_file = list_items[2]
 	return render_template("browser_usb.html", items_file=items_file, items_dir=items_dir, cur_dir=cur_dir)
 
-@browser_bp.route("/usb/delete")
+@browser_bp.route("/usb/delete/<path:MasterListDir>")
+@browser_bp.route("/usb/delete/")
 @login_required
 def usb_delete(MasterListDir=""):
 	path = os.path.join(path_temp_usb ,MasterListDir)
@@ -56,5 +57,23 @@ def server_path(MasterListDir=""):
 	info = ret["info"]
 	if "error" in ret:
 		return abort(404)
-	log.info(str(ret))
 	return render_template("browser_server.html",items_file=info["items_file"], items_dir=info["items_dir"], cur_dir=info["cur_dir"])
+
+@browser_bp.route("/server/delete/<path:MasterListDir>")
+@browser_bp.route("/server/delete/")
+@login_required
+def server_delete(MasterListDir=""):
+	ret = api.delete_path(MasterListDir)
+	if "error" in ret:
+		return abort(404)
+	return redirect(url_for("browser.server_path"))
+
+@browser_bp.route("/server/download/<path:MasterListDir>")
+@browser_bp.route("/server/download/")
+@login_required
+def server_download(MasterListDir=""):
+	ret = api.download_path(MasterListDir)
+	if "error" in ret:
+		return abort(404)
+	log.info(str(ret))
+	return redirect(url_for("browser.server_path"))

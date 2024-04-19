@@ -2,15 +2,18 @@ from flask import jsonify
 import requests
 import socketio
 from socketio.exceptions import TimeoutError
-import logging
 
+import logging
 import urllib3
+import tempfile
+import zipfile
+
 
 urllib3.disable_warnings()
 
 log_format = "%(levelname)s [%(asctime)s] %(name)s  %(message)s"
 logging.basicConfig(format=log_format,level=logging.INFO,filename="/sabu/logs/endpoint/sabu.log",filemode="a")
-log = logging.getLogger("sabu.endpoint.apî")
+log = logging.getLogger("sabu.endpoint.api")
 
 class Api:
     def __init__(self,app,server_url,token,hostname):
@@ -66,3 +69,18 @@ class Api:
         url = self.server_url+"/api/v2/get_files/path/"+path
         req = requests.get(url, verify=False,headers=self.headers,cookies=self.cookies)
         return req.json()
+    
+    def delete_path(self,path):
+        url = self.server_url+"/api/v2/get_files/delete/"+path
+        req = requests.delete(url, verify=False,headers=self.headers,cookies=self.cookies)
+        return req.json()
+    
+    def download_path(self,path):
+        url = self.server_url+"/api/v2/get_files/download/"+path
+        req = requests.get(url, verify=False,headers=self.headers,cookies=self.cookies,stream=True)
+        file_zip_temp = tempfile.TemporaryFile()
+        file_zip_temp.write(req.content)
+        file_zip_temp.seek(0)
+        with zipfile.ZipFile(file_zip_temp, "r", zipfile.ZIP_DEFLATED) as   zipf:
+            zipf.extractall("/mnt")
+        return {"message":"As extract"}

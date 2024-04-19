@@ -44,13 +44,13 @@ $(".yesButtonDeleteObject").click(function(e){
 	var get_url=window.location.pathname.split("/").slice(4).join("/")
 	e.preventDefault()
 	console.log(temp_name_object)
-	// $.ajax({
-	// 	type: "GET",
-	// 	url: "/browser/delete/"+get_url+"/"+temp_name_object,
-	// 	success: function(data){
-	// 		if(data == "ok"){
-	// 			window.location.reload();
-	// 		}
-	// 	}
-	// });
+	$.ajax({
+		type: "GET",
+		url: "/browser/usb/delete/"+get_url+"/"+temp_name_object,
+		success: function(data){
+			if(data == "ok"){
+				window.location.reload();
+			}
+		}
+	});
 });

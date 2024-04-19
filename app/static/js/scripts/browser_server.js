@@ -1,3 +1,5 @@
+var temp_name_object = ""
+
 $(".onclick_object").click(function(){
 	var href = $(this).closest("tr").find(".location").closest("a").attr("href")
 	if(href) {
@@ -31,3 +33,25 @@ if($("#bodyBrowser").find('tr').is(':visible')){
 }else{
 	document.getElementById("noElementFound").style  = "display: True;";
 }
+
+
+// Remove element 
+$(".delete_object_name").click(function(){
+	temp_name_object=$(this).closest("tr").find(".object_name").text().trim()
+});
+
+// Yes button
+$(".yesButtonDeleteObject").click(function(e){
+	var get_url=window.location.pathname.split("/").slice(4).join("/")
+	e.preventDefault()
+	console.log(temp_name_object)
+	$.ajax({
+		type: "GET",
+		url: "/browser/server/delete/"+get_url+"/"+temp_name_object,
+		success: function(data){
+			if(data == "ok"){
+				window.location.reload();
+			}
+		}
+	});
+});

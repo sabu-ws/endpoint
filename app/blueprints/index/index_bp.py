@@ -15,7 +15,3 @@ def index():
 def user():
 	info = api.status_user()
 	return jsonify(info)
-
-@index_bp.route("/test")
-def test():
-	return api.test()
