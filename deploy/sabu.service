@@ -1,0 +1,18 @@
+[Unit]
+Description=SABU-Endpoint
+After=network.target
+StartLimitInterval=200
+StartLimitBurst=5
+
+[Service]
+User=svc-sabu
+Group=svc-sabu
+WorkingDirectory=/sabu/endpoint/
+ExecStart=/sabu/venv-sabu/bin/python endpoint.py
+StandardOutput=append:/sabu/logs/endpoint/flask-gui_access.log
+StandardError=append:/sabu/logs/endpoint/flask-gui_error.log
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

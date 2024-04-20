@@ -1,0 +1,27 @@
+# SABU SUDO
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/systemctl restart sabu.service
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/systemctl restart nginx.service
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/systemctl restart rsyslog.service
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/systemctl restart nftables.service
+
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/systemctl start sabu.service
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/systemctl start nginx.service
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/systemctl start rsyslog.service
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/systemctl start nftables.service
+
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/systemctl stop sabu.service
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/systemctl stop nginx.service
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/systemctl stop rsyslog.service
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/systemctl stop nftables.service
+
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/systemctl status nginx.service
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/systemctl status sabu.service
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/systemctl status rsyslog.service
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/systemctl status nftables.service
+
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/sbin/reboot
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/sbin/shutdown -h now
+
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/bash /sabu/server/core/scripts/update_hostname.sh -n *
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/bash /sabu/server/core/scripts/update_ip_address.sh *
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/bash /sabu/server/core/scripts/get_ip_address.sh *
