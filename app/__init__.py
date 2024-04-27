@@ -39,7 +39,7 @@ app.config["PERMANENT_SESSION_LIFETIME"] = datetime.timedelta(minutes=5)
 socketio = SocketIO(app)
 
 # Api conf
-api = Api(app,SERVER_URL,TOKEN_API,HOSTNAME_ENDPOINT)
+api = Api(app,SERVER_IP,TOKEN_API,HOSTNAME_ENDPOINT)
 api.connect()
 
 # # init login

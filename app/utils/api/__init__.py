@@ -16,11 +16,9 @@ logging.basicConfig(format=log_format,level=logging.INFO,filename="/sabu/logs/en
 log = logging.getLogger("sabu.endpoint.api")
 
 class Api:
-    def __init__(self,app,server_url,token,hostname):
+    def __init__(self,app,server_ip,token,hostname):
         self.app = app
-        if server_url[-1] == "/":
-            server_url=server_url[:-1]
-        self.server_url = server_url
+        self.server_url = f"https://{server_ip}/"
         self.token = token
         self.hostname = hostname
         self.namespace = "/api/v2"

@@ -371,7 +371,7 @@ deploy_sabu() {
     # UPDATE .ENV
     cp /sabu/endpoint/.env.model /sabu/endpoint/.env > /dev/null 2>&1
     sed -i 's|^HOSTNAME_ENDPOINT=.*|HOSTNAME_ENDPOINT="'"$NAME_ENDPOINT"'"|' /sabu/endpoint/.env
-    sed -i 's|^SERVER_URL=.*|SERVER_URL="'"$SERVER_IP"'"|' /sabu/endpoint/.env
+    sed -i 's|^SERVER_IP=.*|SERVER_IP="'"$SERVER_IP"'"|' /sabu/endpoint/.env
     sed -i 's|^TOKEN_API=.*|TOKEN_API="'"$API_TOKEN"'"|' /sabu/endpoint/.env
 
     # CONFIG AUTOSTART BROWSER
