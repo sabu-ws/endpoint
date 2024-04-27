@@ -7,5 +7,4 @@ if __name__ == "__main__":
     # ../sabu-venv/bin/gunicorn -w 2 app:app --certfile ../ssl/sabu.crt --keyfile ../ssl/private/sabu.key -b 127.0.0.1:8888
 
     # For dev
-    socketio.run(app, "0.0.0.0", 8888, debug=True, use_reloader=True)
- 
+    socketio.run(app, "0.0.0.0", 8888, debug=True, use_reloader=True, allow_unsafe_werkzeug=True)

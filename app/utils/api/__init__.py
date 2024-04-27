@@ -33,6 +33,7 @@ class Api:
         self.cookies = {}
     
     def connect(self):
+        log.info(self.hostname)
         self.sio.connect(self.server_url,namespace=self.namespace,headers=self.headers,transports="websocket")
         self.sio.emit("join")
     
