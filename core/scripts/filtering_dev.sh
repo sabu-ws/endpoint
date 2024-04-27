@@ -4,6 +4,7 @@ INTERFACE_NAME=$1
 
 INTERFACE_FILE="/etc/network/interfaces"
 DNS_FILE="/etc/resolv.conf"
+SERVER_IP_FILE="/sabu/endpoint/.env"
 
 if [ -z "$INTERFACE_NAME" ]
 then
@@ -19,10 +20,12 @@ else
     DNS_1=$(awk 'NR==1 {print}' $DNS_FILE | awk '{print $2}')
     DNS_2=$(awk 'NR==2 {print}' $DNS_FILE | awk '{print $2}')
 
-    INTERFACE_NETWORK=$(ipcalc $INTERFACE_ADDRESS/$INTERFACE_NETMASK | grep "Network" | cut -d' ' -f4)
+    INTERFACE_NETWORK=$(ipcalc $INTERFACE_ADDRESS/$INTERFACE_NETMASK | grep "Network" | awk '{print $2}')
+
+    SERVER_IP=(cat $SERVER_IP_FILE | grep "SERVER_IP" | cut -d'"' -f2)
 
     # ECHO
-    # echo -e "${INTERFACE_ADDRESS}\n${INTERFACE_NETMASK}\n${INTERFACE_GATEWAY}\n${INTERFACE_NETWORK}\n${DNS_1}\n${DNS_2}"
+    echo -e "${INTERFACE_ADDRESS}\n${INTERFACE_NETMASK}\n${INTERFACE_GATEWAY}\n${INTERFACE_NETWORK}\n${DNS_1}\n${DNS_2}"
 
     # FLUSH TABLE
     nft flush ruleset
@@ -38,17 +41,12 @@ else
     ## INPUT RULES
     # Allow SSH
     nft add rule inet filter input iif $INTERFACE_NAME ip saddr $INTERFACE_NETWORK ip daddr $INTERFACE_ADDRESS tcp dport 22 accept
-    # Allow HTTP
-    nft add rule inet filter input iif $INTERFACE_NAME ip saddr $INTERFACE_NETWORK ip daddr $INTERFACE_ADDRESS tcp dport 80 accept
     # Allow HTTPS
+    nft add rule inet filter input iif $INTERFACE_NAME ip saddr $SERVER_IP ip daddr $INTERFACE_ADDRESS tcp dport 443 accept
+    # Allow HTTPS (Network allow)
     nft add rule inet filter input iif $INTERFACE_NAME ip saddr $INTERFACE_NETWORK ip daddr $INTERFACE_ADDRESS tcp dport 443 accept
-    # Allow DNS
-    nft add rule inet filter input iif $INTERFACE_NAME ip saddr $DNS_1 ip daddr $INTERFACE_ADDRESS udp dport 53 accept
-    nft add rule inet filter input iif $INTERFACE_NAME ip saddr $DNS_2 ip daddr $INTERFACE_ADDRESS udp dport 53 accept
-    # Allow REDIS
-    nft add rule inet filter input iif $INTERFACE_NAME ip saddr $INTERFACE_NETWORK ip daddr $INTERFACE_ADDRESS tcp dport 6380 accept
-    # Allow PGADMIN
-    nft add rule inet filter input iif $INTERFACE_NAME ip saddr $INTERFACE_NETWORK ip daddr $INTERFACE_ADDRESS tcp dport 8181 accept
+    # Allow NTP
+    nft add rule inet filter input iif $INTERFACE_NAME ip saddr $INTERFACE_NETWORK udp sport 123 ip daddr $INTERFACE_ADDRESS accept
     # Drop ALL
     nft add rule inet filter input iif $INTERFACE_NAME ip saddr 0.0.0.0/0 ip daddr $INTERFACE_ADDRESS drop
 
@@ -57,14 +55,11 @@ else
     # Allow SSH
     nft add rule inet filter output oif $INTERFACE_NAME ip saddr $INTERFACE_ADDRESS tcp sport 22 ip daddr $INTERFACE_NETWORK accept
     # Allow HTTPS
-    nft add rule inet filter output oif $INTERFACE_NAME ip saddr $INTERFACE_ADDRESS tcp sport 443 ip daddr 0.0.0.0/0 accept
-    # Allow DNS
-    nft add rule inet filter output oif $INTERFACE_NAME ip saddr $INTERFACE_ADDRESS ip daddr $DNS_1 udp dport 53 accept
-    nft add rule inet filter output oif $INTERFACE_NAME ip saddr $INTERFACE_ADDRESS ip daddr $DNS_2 udp dport 53 accept
-    # Allow REDIS
-    nft add rule inet filter output oif $INTERFACE_NAME ip saddr $INTERFACE_ADDRESS tcp sport 6380 ip daddr 0.0.0.0/0 accept
-    # Allow PGADMIN
-    nft add rule inet filter output oif $INTERFACE_NAME ip saddr $INTERFACE_ADDRESS tcp sport 8181 ip daddr 0.0.0.0/0 accept
+    nft add rule inet filter output oif $INTERFACE_NAME ip saddr $INTERFACE_ADDRESS tcp sport 443 ip daddr $SERVER_IP accept
+    # Allow HTTPS (Network allow)
+    nft add rule inet filter output oif $INTERFACE_NAME ip saddr $INTERFACE_ADDRESS tcp sport 443 ip daddr $INTERFACE_NETWORK accept
+    # Allow NTP
+    nft add rule inet filter output oif $INTERFACE_NAME ip saddr $INTERFACE_ADDRESS ip daddr 0.0.0.0/0 udp dport 123 accept
     # Drop ALL
     nft add rule inet filter output oif $INTERFACE_NAME ip saddr $INTERFACE_ADDRESS ip daddr 0.0.0.0/0 drop
 
