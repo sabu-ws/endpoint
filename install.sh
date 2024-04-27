@@ -112,9 +112,9 @@ check_requirements() {
 
     if [ -z "$NAME_ENDPOINT" ]
     then
-        show 2 "The endpoint name has been set successfully"
-    else
         show 1 "The endpoint name has not been set, cancel installation."
+    else
+        show 2 "The endpoint name has been set successfully"
     fi
 
     # GET SERVER IP
@@ -125,9 +125,9 @@ check_requirements() {
 
     if [ -z "$SERVER_IP" ]
     then
-        show 2 "The server IP address has been set successfully"
-    else
         show 1 "The server IP address has not been set, cancel installation."
+    else
+        show 2 "The server IP address has been set successfully"
     fi
 
     # GET API TOKEN
@@ -138,9 +138,9 @@ check_requirements() {
 
     if [ -z "$API_TOKEN" ]
     then
-        show 2 "The API token has been set successfully"
-    else
         show 1 "The API token has not been set, cancel installation."
+    else
+        show 2 "The API token has been set successfully"
     fi
 
         # CHECK USERS
