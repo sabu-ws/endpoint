@@ -112,9 +112,9 @@ check_requirements() {
 
     if [ -z "$NAME_ENDPOINT" ]
     then
-        show 2 "The endpoint name has been set successfully"
-    else
         show 1 "The endpoint name has not been set, cancel installation."
+    else
+        show 2 "The endpoint name has been set successfully"
     fi
 
     # GET SERVER IP
@@ -125,9 +125,9 @@ check_requirements() {
 
     if [ -z "$SERVER_IP" ]
     then
-        show 2 "The server IP address has been set successfully"
-    else
         show 1 "The server IP address has not been set, cancel installation."
+    else
+        show 2 "The server IP address has been set successfully"
     fi
 
     # GET API TOKEN
@@ -138,9 +138,9 @@ check_requirements() {
 
     if [ -z "$API_TOKEN" ]
     then
-        show 2 "The API token has been set successfully"
-    else
         show 1 "The API token has not been set, cancel installation."
+    else
+        show 2 "The API token has been set successfully"
     fi
 
         # CHECK USERS
@@ -371,7 +371,7 @@ deploy_sabu() {
     # UPDATE .ENV
     cp /sabu/endpoint/.env.model /sabu/endpoint/.env > /dev/null 2>&1
     sed -i 's|^HOSTNAME_ENDPOINT=.*|HOSTNAME_ENDPOINT="'"$NAME_ENDPOINT"'"|' /sabu/endpoint/.env
-    sed -i 's|^SERVER_URL=.*|SERVER_URL="'"$SERVER_IP"'"|' /sabu/endpoint/.env
+    sed -i 's|^SERVER_IP=.*|SERVER_IP="'"$SERVER_IP"'"|' /sabu/endpoint/.env
     sed -i 's|^TOKEN_API=.*|TOKEN_API="'"$API_TOKEN"'"|' /sabu/endpoint/.env
 
     # CONFIG AUTOSTART BROWSER
