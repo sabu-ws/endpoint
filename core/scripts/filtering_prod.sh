@@ -25,7 +25,7 @@ else
     SERVER_IP=$(cat $SERVER_IP_FILE | grep "SERVER_IP" | cut -d'"' -f2)
 
     # ECHO
-    echo -e "${INTERFACE_ADDRESS}\n${INTERFACE_NETMASK}\n${INTERFACE_GATEWAY}\n${INTERFACE_NETWORK}\n${DNS_1}\n${DNS_2}"
+    # echo -e "${INTERFACE_ADDRESS}\n${INTERFACE_NETMASK}\n${INTERFACE_GATEWAY}\n${INTERFACE_NETWORK}\n${DNS_1}\n${DNS_2}"
 
     # FLUSH TABLE
     nft flush ruleset
