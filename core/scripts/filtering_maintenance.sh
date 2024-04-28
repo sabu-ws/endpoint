@@ -45,7 +45,7 @@ else
     nft add rule inet filter input iif $INTERFACE_NAME ip saddr $DNS_1 ip daddr $INTERFACE_ADDRESS udp dport 53 accept
     nft add rule inet filter input iif $INTERFACE_NAME ip saddr $DNS_2 ip daddr $INTERFACE_ADDRESS udp dport 53 accept
     # Allow HTTPS
-    nft add rule inet filter input iif $INTERFACE_NAME ip saddr $SERVER_IP ip daddr $INTERFACE_ADDRESS tcp dport 443 accept
+    nft add rule inet filter input iif $INTERFACE_NAME ip saddr $SERVER_IP tcp sport 443 ip daddr $INTERFACE_ADDRESS accept
     # TCP ESTABLISHED
     nft add rule inet filter input iif $INTERFACE_NAME ip saddr 0.0.0.0/0 ip daddr $INTERFACE_ADDRESS ct state established accept
     # Allow NTP
@@ -61,7 +61,7 @@ else
     nft add rule inet filter output oif $INTERFACE_NAME ip saddr $INTERFACE_ADDRESS ip daddr $DNS_1 udp dport 53 accept
     nft add rule inet filter output oif $INTERFACE_NAME ip saddr $INTERFACE_ADDRESS ip daddr $DNS_2 udp dport 53 accept
     # Allow HTTPS (Server Only)
-    nft add rule inet filter output oif $INTERFACE_NAME ip saddr $INTERFACE_ADDRESS tcp sport 443 ip daddr $SERVER_IP accept
+    nft add rule inet filter output oif $INTERFACE_NAME ip saddr $INTERFACE_ADDRESS ip daddr $SERVER_IP tcp dport 443 accept
     # Allow HTTP
     nft add rule inet filter output oif $INTERFACE_NAME ip saddr $INTERFACE_ADDRESS ip daddr 0.0.0.0/0 tcp dport 80 accept
     # Allow HTTPS

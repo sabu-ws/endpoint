@@ -42,7 +42,7 @@ else
     # Allow SSH
     nft add rule inet filter input iif $INTERFACE_NAME ip saddr $INTERFACE_NETWORK ip daddr $INTERFACE_ADDRESS tcp dport 22 accept
     # Allow HTTPS
-    nft add rule inet filter input iif $INTERFACE_NAME ip saddr $SERVER_IP ip daddr $INTERFACE_ADDRESS tcp dport 443 accept
+    nft add rule inet filter input iif $INTERFACE_NAME ip saddr $SERVER_IP tcp sport 443 ip daddr $INTERFACE_ADDRESS accept
     # Allow NTP
     nft add rule inet filter input iif $INTERFACE_NAME ip saddr $INTERFACE_NETWORK udp sport 123 ip daddr $INTERFACE_ADDRESS accept
     # Drop ALL
@@ -53,7 +53,7 @@ else
     # Allow SSH
     nft add rule inet filter output oif $INTERFACE_NAME ip saddr $INTERFACE_ADDRESS tcp sport 22 ip daddr $INTERFACE_NETWORK accept
     # Allow HTTPS
-    nft add rule inet filter output oif $INTERFACE_NAME ip saddr $INTERFACE_ADDRESS tcp sport 443 ip daddr $SERVER_IP accept
+    nft add rule inet filter output oif $INTERFACE_NAME ip saddr $INTERFACE_ADDRESS ip daddr $SERVER_IP tcp dport 443 accept
     # Allow NTP
     nft add rule inet filter output oif $INTERFACE_NAME ip saddr $INTERFACE_ADDRESS ip daddr 0.0.0.0/0 udp dport 123 accept
     # Drop ALL
