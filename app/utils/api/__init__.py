@@ -48,38 +48,50 @@ class Api:
     
     def login(self,username,code):
         data = {"username":username,"code":code} 
-        req = requests.post(self.server_url+ "/api/v2/set_connection", verify=False,data=data,headers=self.headers)
+        req = requests.post(self.server_url+ "api/v2/set_connection", verify=False,data=data,headers=self.headers)
         if req.cookies:
             self.cookies = req.cookies
         return req.json()
     
     def logout(self):
-        req = requests.post(self.server_url+"/api/v2/set_deconnection", verify=False,headers=self.headers,cookies=self.cookies)
+        req = requests.post(self.server_url+"api/v2/set_deconnection", verify=False,headers=self.headers,cookies=self.cookies)
         if req.cookies:
             self.cookies = req.cookies
         return req.json()
 
     
     def status_user(self):
-        req = requests.get(self.server_url+"/api/v2/status_user", verify=False,headers=self.headers,cookies=self.cookies)
+        req = requests.get(self.server_url+"api/v2/status_user", verify=False,headers=self.headers,cookies=self.cookies)
         return req.json()
     
     def get_path(self,path):
-        url = self.server_url+"/api/v2/get_files/path/"+path
+        url = self.server_url+"api/v2/get_files/path/"+path
         req = requests.get(url, verify=False,headers=self.headers,cookies=self.cookies)
         return req.json()
     
     def delete_path(self,path):
-        url = self.server_url+"/api/v2/get_files/delete/"+path
+        url = self.server_url+"api/v2/get_files/delete/"+path
         req = requests.delete(url, verify=False,headers=self.headers,cookies=self.cookies)
         return req.json()
     
     def download_path(self,path):
-        url = self.server_url+"/api/v2/get_files/download/"+path
+        url = self.server_url+"api/v2/get_files/download/"+path
         req = requests.get(url, verify=False,headers=self.headers,cookies=self.cookies,stream=True)
         file_zip_temp = tempfile.TemporaryFile()
         file_zip_temp.write(req.content)
         file_zip_temp.seek(0)
         with zipfile.ZipFile(file_zip_temp, "r", zipfile.ZIP_DEFLATED) as   zipf:
             zipf.extractall("/mnt")
+        file_zip_temp.close()
         return {"message":"As extract"}
+
+    def upload_zip(self, data):
+        url = self.server_url+"api/v2/upload"
+        file_info = {"ZIP4SCAN":('zip_user.zip', data, 'application/zip-compressed')}
+        req = requests.put(url, verify=False, headers=self.headers, cookies=self.cookies, files=file_info)
+        return req.json()
+    
+    def status_scan(self):
+        url = self.server_url+"api/v2/scan/state"
+        req = requests.get(url, verify=False, headers=self.headers, cookies=self.cookies)
+        return req.json()

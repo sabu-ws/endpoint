@@ -11,11 +11,9 @@
                             <h1 class="text-white font-semibold"><i class="fa-solid fa-house"></i> HOME</h1>
                         </button>
                     </a>
-                    <a href="{{ url_for('index.index') }}" class="w-full">
-                        <button id="scan_button" class="bg-gray-500 rounded-lg p-2 w-full" disabled="">
-                            <h1 class="text-white font-semibold"><i class="fa-solid fa-bug"></i> SCAN</h1>
-                        </button>
-                    </a>
+                    <button id="scan_button" class="bg-gray-500 rounded-lg p-2 w-full" disabled="" onclick="document.getElementById('scan_form').submit()">
+                        <h1 class="text-white font-semibold"><i class="fa-solid fa-bug"></i> SCAN</h1>
+                    </button>
                 </div> 
                 <div class="bg-white dark:bg-gray-600 p-8 rounded-lg shadow-md ">
                     <div class="flex justify-between h-14 mb-2">
@@ -61,55 +59,57 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody  id="bodyBrowser">
-                            {% for dir in items_dir %} 
-                            <tr class="bg-white border-b dark:bg-gray-600 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer">
-                                <td class="w-4 p-4">
-                                    <div class="flex items-center">
-                                        <input id="checkbox-folder" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        <label for="checkbox-folder" class="sr-only">checkbox</label>
-                                    </div>
-                                </td>
-                                <th scope="row" class="onclick_object px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    <a href="{{ url_for('scan.path') }}{{ cur_dir }}/{{ dir }}" class="location"></a>
-                                    <div class="flex items-center">
-                                        <div class="flex-shrink-0">
-                                            <svg class="fill-yellow-300" xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512"><path d="M64 480H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H288c-10.1 0-19.6-4.7-25.6-12.8L243.2 57.6C231.1 41.5 212.1 32 192 32H64C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64z"/></svg>
+                        <form method="POST" action="{{ url_for('scan.scan') }}" id="scan_form">
+                            <tbody  id="bodyBrowser">
+                                {% for dir in items_dir %} 
+                                <tr class="bg-white border-b dark:bg-gray-600 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer">
+                                    <td class="w-4 p-4">
+                                        <div class="flex items-center">
+                                            <input id="checkbox-folder" type="checkbox" name="file_info" value="{{ dir }}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            <label for="checkbox-folder" class="sr-only">checkbox</label>
                                         </div>
-                                        <div class="object_name ml-3">
-                                            {{ dir }} 
+                                    </td>
+                                    <th scope="row" class="onclick_object px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        <a href="{{ url_for('scan.path') }}{{ cur_dir }}/{{ dir }}" class="location"></a>
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0">
+                                                <svg class="fill-yellow-300" xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512"><path d="M64 480H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H288c-10.1 0-19.6-4.7-25.6-12.8L243.2 57.6C231.1 41.5 212.1 32 192 32H64C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64z"/></svg>
+                                            </div>
+                                            <div class="object_name ml-3">
+                                                {{ dir }} 
+                                            </div>
                                         </div>
-                                    </div>
-                                </th>
-                                <td class="onclick_object px-6 py-4">
-                                    Folder
-                                </td>
-                            </tr>
-                            {% endfor %} 
-                            {% for file in items_file %}
-                            <tr class="bg-white border-b dark:bg-gray-600 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
-                                <td class="w-4 p-4">
-                                    <div class="flex items-center">
-                                        <input id="checkbox-file" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        <label for="checkbox-file" class="sr-only">checkbox</label>
-                                    </div>
-                                </td>
-                                <th scope="row" class="onclick_object px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    <div class="flex items-center">
-                                        <div class="flex-shrink-0">
-                                            <svg class="fill-gray-400" xmlns="http://www.w3.org/2000/svg" height="20" width="16" viewBox="0 0 384 512"><path d="M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0L384 128z"/></svg>
+                                    </th>
+                                    <td class="onclick_object px-6 py-4">
+                                        Folder
+                                    </td>
+                                </tr>
+                                {% endfor %} 
+                                {% for file in items_file %}
+                                <tr class="bg-white border-b dark:bg-gray-600 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                    <td class="w-4 p-4">
+                                        <div class="flex items-center">
+                                            <input id="checkbox-file" type="checkbox" name="file_info" value="{{ file }}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            <label for="checkbox-file" class="sr-only">checkbox</label>
                                         </div>
-                                        <div class="object_name ml-3">
-                                            {{ file }} 
+                                    </td>
+                                    <th scope="row" class="onclick_object px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0">
+                                                <svg class="fill-gray-400" xmlns="http://www.w3.org/2000/svg" height="20" width="16" viewBox="0 0 384 512"><path d="M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0L384 128z"/></svg>
+                                            </div>
+                                            <div class="object_name ml-3">
+                                                {{ file }} 
+                                            </div>
                                         </div>
-                                    </div>
-                                </th>
-                                <td class="onclick_object px-6 py-4">
-                                    File
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
+                                    </th>
+                                    <td class="onclick_object px-6 py-4">
+                                        File
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </form>
                     </table>
                     <div id="noElementFound" style="display: none;" class="flex justify-center p-4 items-center dark:bg-gray-600">
                         <h1 class="dark:text-white font-semibold">No element found!</h1>

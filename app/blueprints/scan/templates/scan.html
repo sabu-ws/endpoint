@@ -11,4 +11,16 @@
 </div>
 {% endblock %}
 {% block scripts %}
+<script>
+    var scan_id = "{{ scan_id }}";
+    var url = "{{ url_for('scan.scan_state') }}"
+    var interval = setInterval(function() { 
+        $.get(url,function(data){
+            if (data.state){
+                window.location = "/";
+                clearInterval(interval)
+            }
+        });
+    }, 2000);
+</script>
 {% endblock %}

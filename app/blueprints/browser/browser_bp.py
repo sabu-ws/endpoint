@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, abort
+from flask import Blueprint, render_template, redirect, url_for, abort, flash
 import os
 
 from app import api, logger as log
@@ -54,9 +54,9 @@ def usb_delete(MasterListDir=""):
 @login_required
 def server_path(MasterListDir=""):
 	ret = api.get_path(MasterListDir)
-	info = ret["info"]
 	if "error" in ret:
 		return abort(404)
+	info = ret["info"]
 	return render_template("browser_server.html",items_file=info["items_file"], items_dir=info["items_dir"], cur_dir=info["cur_dir"])
 
 @browser_bp.route("/server/delete/<path:MasterListDir>")
@@ -76,4 +76,5 @@ def server_download(MasterListDir=""):
 	if "error" in ret:
 		return abort(404)
 	log.info(str(ret))
+	flash("Succesful download on USB key","good")
 	return redirect(url_for("browser.server_path"))
