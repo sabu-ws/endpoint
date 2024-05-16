@@ -305,6 +305,13 @@ config_system() {
     systemctl restart ssh > /dev/null 2>&1
     show 0 "SSH setup Complete"
 
+    # UDEV RULE & SERVICE
+    show 2 "Udev setup..."
+    cp /sabu/endpoint/deploy/01-usb-automount.rules /etc/udev/rules.d/01-usb-automount.rules > /dev/null 2>&1
+    cp /sabu/endpoint/deploy/usb-automount@.service /etc/systemd/system/usb-automount@.service > /dev/null 2>&1
+    systemctl daemon-reload > /dev/null 2>&1
+    show 0 "Udev setup Complete"
+
     # SUDO COMMAND
     show 2 "Sudo setup..."
     cp /sabu/endpoint/deploy/sabu.sudo /etc/sudoers.d/sabu > /dev/null 2>&1
