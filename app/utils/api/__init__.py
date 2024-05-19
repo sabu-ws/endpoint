@@ -1,3 +1,4 @@
+from config import *
 from flask import jsonify
 import requests
 import socketio
@@ -80,8 +81,8 @@ class Api:
         file_zip_temp = tempfile.TemporaryFile()
         file_zip_temp.write(req.content)
         file_zip_temp.seek(0)
-        with zipfile.ZipFile(file_zip_temp, "r", zipfile.ZIP_DEFLATED) as   zipf:
-            zipf.extractall("/mnt")
+        with zipfile.ZipFile(file_zip_temp, "r", zipfile.ZIP_DEFLATED) as zipf:
+            zipf.extractall(DATA_PATH)
         file_zip_temp.close()
         return {"message":"As extract"}
 
@@ -93,5 +94,10 @@ class Api:
     
     def status_scan(self):
         url = self.server_url+"api/v2/scan/state"
+        req = requests.get(url, verify=False, headers=self.headers, cookies=self.cookies)
+        return req.json()
+
+    def last_scan_info(self):
+        url = self.server_url+"api/v2/scan/last"
         req = requests.get(url, verify=False, headers=self.headers, cookies=self.cookies)
         return req.json()

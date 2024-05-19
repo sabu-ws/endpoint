@@ -12,6 +12,7 @@ from flask_login import (
 	logout_user,
 	current_user,
 )
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from app.utils.api import Api
 
@@ -23,6 +24,7 @@ import datetime
 log_format = "%(levelname)s [%(asctime)s] %(name)s  %(message)s"
 logging.basicConfig(format=log_format,level=logging.INFO,filename="/sabu/logs/endpoint/sabu.log",filemode="a")
 logger = logging.getLogger("sabu.endpoint")
+
 
 # Flask app
 app = Flask(__name__)
@@ -37,6 +39,9 @@ app.config["PERMANENT_SESSION_LIFETIME"] = datetime.timedelta(minutes=5)
 
 # socketio
 socketio = SocketIO(app)
+
+# Proxy fix
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1)
 
 # Api conf
 api = Api(app,SERVER_IP,TOKEN_API,HOSTNAME_ENDPOINT)

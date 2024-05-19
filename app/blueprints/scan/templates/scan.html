@@ -17,7 +17,7 @@
     var interval = setInterval(function() { 
         $.get(url,function(data){
             if (data.state){
-                window.location = "/";
+                window.location = "/scan/path/";
                 clearInterval(interval)
             }
         });

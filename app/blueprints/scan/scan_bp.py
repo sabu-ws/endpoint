@@ -1,6 +1,7 @@
+from config import *
 from app.utils.api.function import login_required
 
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 import os
 from io import BytesIO
 import zipfile
@@ -10,12 +11,15 @@ from app import logger as log, api
 
 scan_bp = Blueprint("scan", __name__, template_folder="templates")
 
-path_temp_usb = "/mnt"
+@scan_bp.route("/")
+def index():
+	return redirect(url_for("scan.path"))
+
 @scan_bp.route("/path/<path:MasterListDir>")
 @scan_bp.route("/path/")
 @login_required
 def path(MasterListDir=""):
-	joining = os.path.join(path_temp_usb, MasterListDir)
+	joining = os.path.join(DATA_PATH, MasterListDir)
 	cur_dir = MasterListDir
 	if not os.path.exists(joining):
 		abort(404)
@@ -24,6 +28,11 @@ def path(MasterListDir=""):
 		list_items = [i for i in os.walk(joining)][0]
 		items_dir = list_items[1]
 		items_file = list_items[2]
+	
+	scan_info = api.last_scan_info()
+	if "message" in scan_info and scan_info["message"] == "result_scan":
+		if scan_info["result"] != "":
+			session["scan_result"] = api.last_scan_info()["result"]
 	return render_template("browser_scan.html", items_file=items_file, items_dir=items_dir, cur_dir=cur_dir)
 
 @scan_bp.route("/scan",methods=["POST","GET"])
@@ -33,7 +42,7 @@ def scan():
 	if request.method == "POST" and scan_state["state"] == True:
 		get_file_name = request.form.getlist("file_info")
 		memory_file = BytesIO()
-		os.chdir(path_temp_usb)
+		os.chdir(DATA_PATH)
 		with zipfile.ZipFile(memory_file, "w", zipfile.ZIP_DEFLATED) as zipf:
 			for items in get_file_name:
 				if os.path.exists(items):
@@ -46,7 +55,7 @@ def scan():
 		memory_file.seek(0)
 		result = api.upload_zip(memory_file)
 		if "error" in result:
-			flash("error to scan")
+			flash("Error to scan","error")
 			return redirect(url_for("scan.path"))
 		if "message" in result:
 			if result["message"] == "scanning":
@@ -63,6 +72,7 @@ def scan():
 def scan_state():
 	scan_state = api.status_scan()
 	if scan_state["state"]:
+		flash("Scan completed","good")
 		return {"state":True}
 	else:
 		return {"state":False}

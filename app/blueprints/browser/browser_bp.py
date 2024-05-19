@@ -1,3 +1,4 @@
+from config import *
 from flask import Blueprint, render_template, redirect, url_for, abort, flash
 import os
 
@@ -11,12 +12,11 @@ browser_bp = Blueprint("browser", __name__, template_folder="templates")
 def index():
 	return redirect(url_for('browser.usb_path'))
 
-path_temp_usb = "/mnt"
 @browser_bp.route("/usb/path/<path:MasterListDir>")
 @browser_bp.route("/usb/path/")
 @login_required
 def usb_path(MasterListDir=""):
-	joining = os.path.join(path_temp_usb, MasterListDir)
+	joining = os.path.join(DATA_PATH, MasterListDir)
 	cur_dir = MasterListDir
 	if not os.path.exists(joining):
 		abort(404)
@@ -31,7 +31,7 @@ def usb_path(MasterListDir=""):
 @browser_bp.route("/usb/delete/")
 @login_required
 def usb_delete(MasterListDir=""):
-	path = os.path.join(path_temp_usb ,MasterListDir)
+	path = os.path.join(DATA_PATH ,MasterListDir)
 	master_path = "/".join(path.split("/")[:-1])
 	last = MasterListDir.split("/")[-1]
 	os.chdir(master_path)
