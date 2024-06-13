@@ -413,7 +413,7 @@ end_install() {
 
     # APPLY FILETRING
     INT=$(ip -br a | tail -n 1 | awk '{print $1}')
-    sh /sabu/endpoint/core/scripts/filtering_dev.sh $INT
+    sh /sabu/endpoint/core/scripts/filtering_prod.sh $INT
 
     # REBOOT
     show 2 "Waiting reboot..."
