@@ -307,6 +307,7 @@ config_system() {
 
     # UDEV RULE & SERVICE
     show 2 "Udev setup..."
+    mkdir -p /mnt/usb > /dev/null 2>&1
     cp /sabu/endpoint/deploy/01-usb-automount.rules /etc/udev/rules.d/01-usb-automount.rules > /dev/null 2>&1
     cp /sabu/endpoint/deploy/usb-automount@.service /etc/systemd/system/usb-automount@.service > /dev/null 2>&1
     systemctl daemon-reload > /dev/null 2>&1

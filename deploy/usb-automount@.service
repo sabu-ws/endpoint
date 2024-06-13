@@ -4,5 +4,5 @@ Description=SABU - Automount USB
 [Service]
 Type=oneshot
 RemainAfterExit=true
-ExecStart=/sabu/scripts/usb/usb_automount.sh add %i
-ExecStop=/sabu/scripts/usb/usb_automount.sh remove %i
+ExecStart=/sabu/endpoint/core/scripts/usb_automount.sh add %i
+ExecStop=/sabu/endpoint/core/scripts/usb_automount.sh remove %i
