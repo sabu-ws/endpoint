@@ -327,7 +327,7 @@ deploy_nginx() {
     rm /etc/nginx/sites-enabled/default > /dev/null 2>&1
 
     mkdir -p /sabu/nginx/
-    mkdir -p /sabu/logs/server/nginx/
+    mkdir -p /sabu/logs/endpoint/nginx/
     cp /sabu/endpoint/deploy/nginx/maintenance.html /sabu/nginx/maintenance.html
     sed -i 's/www-data/svc-sabu/g' /etc/nginx/nginx.conf
 
@@ -337,7 +337,7 @@ deploy_nginx() {
     show 0 "SSL Generate selfsign certificate"
     openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /sabu/ssl/private/sabu.key -out /sabu/ssl/sabu.crt -subj "/C=FR/ST=BRITTANY/L=Rennes/O=SABU/OU=SABU/CN=sabu.local" > /dev/null 2>&1
 
-    cp /sabu/server/deploy/nginx/sabu.conf /etc/nginx/sites-available/sabu.conf > /dev/null 2>&1
+    cp /sabu/endpoint/deploy/nginx/sabu.conf /etc/nginx/sites-available/sabu.conf > /dev/null 2>&1
     ln -s /etc/nginx/sites-available/sabu.conf /etc/nginx/sites-enabled/sabu.conf > /dev/null 2>&1
 
     nginx -t > /dev/null 2>&1
