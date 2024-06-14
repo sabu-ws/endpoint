@@ -13,7 +13,7 @@
                     </a>
                     <a href="{{ url_for('browser.server_path') }}" class="w-full">
                         <button class="bg-darkblue hover:bg-lightblue rounded-lg p-2 w-full">
-                            <h1 class="text-white font-semibold"><i class="fa-solid fa-server"></i> View SERVER</h1>
+                            <h1 class="text-white font-semibold"><i class="fa-solid fa-server"></i> VIEW SERVER</h1>
                         </button>
                     </a>
                 </div> 
@@ -44,17 +44,11 @@
                                 <th scope="col" class="px-6 py-3">
                                     <div class="flex items-center">
                                         Name
-                                        <a href="#"><svg class="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
-                                            </svg></a>
                                     </div>
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     <div class="flex items-center">
                                         Type
-                                        <a href="#"><svg class="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
-                                            </svg></a>
                                     </div>
                                 </th>
                                 <th scope="col" class="px-6 py-3">
@@ -75,7 +69,7 @@
                                         <div class="flex-shrink-0">
                                             <svg class="fill-yellow-300" xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512"><path d="M64 480H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H288c-10.1 0-19.6-4.7-25.6-12.8L243.2 57.6C231.1 41.5 212.1 32 192 32H64C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64z"/></svg>
                                         </div>
-                                        <div class="object_name ml-3">
+                                        <div class="object_name ml-3 truncate max-w-80">
                                             {{ dir }}
                                         </div>
                                     </div>
@@ -97,7 +91,7 @@
                                         <div class="flex-shrink-0">
                                             <svg class="fill-gray-400" xmlns="http://www.w3.org/2000/svg" height="20" width="16" viewBox="0 0 384 512"><path d="M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0L384 128z"/></svg>
                                         </div>
-                                        <div class="object_name ml-3">
+                                        <div class="object_name ml-3 truncate max-w-80">
                                             {{ file }}
                                         </div>
                                     </div>
