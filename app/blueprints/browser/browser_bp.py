@@ -66,7 +66,8 @@ def server_delete(MasterListDir=""):
 	ret = api.delete_path(MasterListDir)
 	if "error" in ret:
 		return abort(404)
-	return redirect(url_for("browser.server_path"))
+	else:
+		return "ok"
 
 @browser_bp.route("/server/download/<path:MasterListDir>")
 @browser_bp.route("/server/download/")
@@ -76,5 +77,5 @@ def server_download(MasterListDir=""):
 	if "error" in ret:
 		return abort(404)
 	log.info(str(ret))
-	flash("Succesful download on USB key","good")
+	flash("Successful download to USB key","good")
 	return redirect(url_for("browser.server_path"))
