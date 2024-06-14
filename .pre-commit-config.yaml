@@ -4,7 +4,16 @@ repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v3.2.0
     hooks:
+    # space, return line
     -   id: trailing-whitespace
     -   id: end-of-file-fixer
-    -   id: check-yaml
+
+    # python, yaml & json files format
+    -   id: check-ast # python files
+    -   id: check-yaml # yaml files
+    -   id: check-json # json files
+
+    # file size & merge conflict
     -   id: check-added-large-files
+        args: ['--maxkb=1000']
+    -   id: check-merge-conflict
