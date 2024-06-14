@@ -20,7 +20,7 @@
 NAME_ENDPOINT=""
 SERVER_IP=""
 API_TOKEN=""
-PACKAGES_PART_1="dirmngr apt-transport-https lsb-release ca-certificates gnupg nodejs nginx openssl python3 python3-pip python3-venv nftables rsyslog gnupg wget ipcalc"
+PACKAGES_PART_1="dirmngr apt-transport-https lsb-release ca-certificates gnupg nodejs nginx openssl python3 python3-pip python3-venv nftables rsyslog gnupg wget ipcalc usbguard"
 
 # DEFINE COLORS
 readonly COLOUR_RESET='\e[0m'
@@ -402,6 +402,21 @@ deploy_sabu() {
     show 0 "SABU setup complete"
 }
 
+# DEPLOY USBGUARD
+deploy_usbguard() {
+
+    systemctl stop usbguard > /dev/null 2>&1
+    systemctl enable usbguard > /dev/null 2>&1
+
+    sed -i 's/ImplicitPolicyTarget=block/ImplicitPolicyTarget=allow/g' /etc/usbguard/usbguard-daemon.conf > /dev/null 2>&1
+
+    cp /sabu/endpoint/deploy/usbguard/sabu.conf /etc/usbguard/rules.d/ > /dev/null 2>&1
+    chmod -R 0600 /etc/usbguard/rules.d/ > /dev/null 2>&1
+    sleep 1
+
+    systemctl start usbguard > /dev/null 2>&1
+}
+
 # END INSTALL
 end_install() {
 
@@ -453,6 +468,9 @@ deploy_sabu
 
 # DEPLOY NFTABLES
 deploy_nftables
+
+# DEPLOY USBGUARD
+deploy_usbguard
 
 # END INSTALL
 end_install
