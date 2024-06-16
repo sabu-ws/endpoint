@@ -20,7 +20,7 @@
 NAME_ENDPOINT=""
 SERVER_IP=""
 API_TOKEN=""
-PACKAGES_PART_1="dirmngr apt-transport-https lsb-release ca-certificates gnupg nodejs nginx openssl python3 python3-pip python3-venv nftables rsyslog gnupg wget ipcalc"
+PACKAGES_PART_1="dirmngr apt-transport-https lsb-release ca-certificates gnupg nodejs nginx openssl python3 python3-pip python3-venv nftables rsyslog gnupg wget ipcalc usbguard"
 
 # DEFINE COLORS
 readonly COLOUR_RESET='\e[0m'
@@ -307,6 +307,7 @@ config_system() {
 
     # UDEV RULE & SERVICE
     show 2 "Udev setup..."
+    mkdir -p /mnt/usb > /dev/null 2>&1
     cp /sabu/endpoint/deploy/01-usb-automount.rules /etc/udev/rules.d/01-usb-automount.rules > /dev/null 2>&1
     cp /sabu/endpoint/deploy/usb-automount@.service /etc/systemd/system/usb-automount@.service > /dev/null 2>&1
     systemctl daemon-reload > /dev/null 2>&1
@@ -327,7 +328,7 @@ deploy_nginx() {
     rm /etc/nginx/sites-enabled/default > /dev/null 2>&1
 
     mkdir -p /sabu/nginx/
-    mkdir -p /sabu/logs/server/nginx/
+    mkdir -p /sabu/logs/endpoint/nginx/
     cp /sabu/endpoint/deploy/nginx/maintenance.html /sabu/nginx/maintenance.html
     sed -i 's/www-data/svc-sabu/g' /etc/nginx/nginx.conf
 
@@ -337,7 +338,7 @@ deploy_nginx() {
     show 0 "SSL Generate selfsign certificate"
     openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /sabu/ssl/private/sabu.key -out /sabu/ssl/sabu.crt -subj "/C=FR/ST=BRITTANY/L=Rennes/O=SABU/OU=SABU/CN=sabu.local" > /dev/null 2>&1
 
-    cp /sabu/server/deploy/nginx/sabu.conf /etc/nginx/sites-available/sabu.conf > /dev/null 2>&1
+    cp /sabu/endpoint/deploy/nginx/sabu.conf /etc/nginx/sites-available/sabu.conf > /dev/null 2>&1
     ln -s /etc/nginx/sites-available/sabu.conf /etc/nginx/sites-enabled/sabu.conf > /dev/null 2>&1
 
     nginx -t > /dev/null 2>&1
@@ -401,6 +402,21 @@ deploy_sabu() {
     show 0 "SABU setup complete"
 }
 
+# DEPLOY USBGUARD
+deploy_usbguard() {
+
+    systemctl stop usbguard > /dev/null 2>&1
+    systemctl enable usbguard > /dev/null 2>&1
+
+    sed -i 's/ImplicitPolicyTarget=block/ImplicitPolicyTarget=allow/g' /etc/usbguard/usbguard-daemon.conf > /dev/null 2>&1
+
+    cp /sabu/endpoint/deploy/usbguard/sabu.conf /etc/usbguard/rules.d/ > /dev/null 2>&1
+    chmod -R 0600 /etc/usbguard/rules.d/ > /dev/null 2>&1
+    sleep 1
+
+    systemctl start usbguard > /dev/null 2>&1
+}
+
 # END INSTALL
 end_install() {
 
@@ -412,7 +428,7 @@ end_install() {
 
     # APPLY FILETRING
     INT=$(ip -br a | tail -n 1 | awk '{print $1}')
-    sh /sabu/endpoint/core/scripts/filtering_dev.sh $INT
+    sh /sabu/endpoint/core/scripts/filtering_prod.sh $INT
 
     # REBOOT
     show 2 "Waiting reboot..."
@@ -452,6 +468,9 @@ deploy_sabu
 
 # DEPLOY NFTABLES
 deploy_nftables
+
+# DEPLOY USBGUARD
+deploy_usbguard
 
 # END INSTALL
 end_install

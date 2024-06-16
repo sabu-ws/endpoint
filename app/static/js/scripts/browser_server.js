@@ -44,13 +44,12 @@ $(".delete_object_name").click(function(){
 $(".yesButtonDeleteObject").click(function(e){
 	var get_url=window.location.pathname.split("/").slice(4).join("/")
 	e.preventDefault()
-	console.log(temp_name_object)
 	$.ajax({
 		type: "GET",
 		url: "/browser/server/delete/"+get_url+"/"+temp_name_object,
 		success: function(data){
 			if(data == "ok"){
-				window.location.reload();
+				location.reload();
 			}
 		}
 	});

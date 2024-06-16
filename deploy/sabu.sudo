@@ -25,3 +25,6 @@
 %svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/bash /sabu/server/core/scripts/update_hostname.sh -n *
 %svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/bash /sabu/server/core/scripts/update_ip_address.sh *
 %svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/bash /sabu/server/core/scripts/get_ip_address.sh *
+
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/bash /sabu/server/core/scripts/format_standard.sh
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/bash /sabu/server/core/scripts/format_advanced.sh
