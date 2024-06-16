@@ -32,10 +32,11 @@
             </div>
             <div class="flex justify-center mt-12">
                 <h1 class="text-xl font-semibold mr-2">USB Status :</h1> 
-                <!-- IF -->
-                <h1 class="text-xl font-semibold text-red-500">Not connected</h1>
-                <!-- ELSE -->
-                <!-- <h1 class="text-xl font-semibold text-green-500">Connected</h1> -->
+                {% if state_usb %}
+                <h1 id="state_usb" class="text-xl font-semibold text-green-500">Connected</h1>
+                {% else %}
+                <h1 id="state_usb" class="text-xl font-semibold text-red-500">Not connected</h1>
+                {% endif %}
 
             </div>
         </div>
@@ -90,5 +91,6 @@
     </div>
 {% endblock %}
 {% block scripts %}
-
+<script src="{{ url_for('static',filename='js/modules/socket.io.min.js') }}"></script>
+<script src="{{ url_for('static',filename='js/scripts/index.js') }}"></script>
 {% endblock %}

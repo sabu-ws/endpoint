@@ -4,18 +4,22 @@ import os
 
 from app import api, logger as log
 from app.utils.api.function import login_required
+from app.utils.usb import usb_detect_wrap, usb_get_name
 
 browser_bp = Blueprint("browser", __name__, template_folder="templates")
 
 @browser_bp.route("/")
 @login_required
+@usb_detect_wrap
 def index():
 	return redirect(url_for('browser.usb_path'))
 
 @browser_bp.route("/usb/path/<path:MasterListDir>")
 @browser_bp.route("/usb/path/")
 @login_required
+@usb_detect_wrap
 def usb_path(MasterListDir=""):
+	name_usb = usb_get_name()
 	joining = os.path.join(DATA_PATH, MasterListDir)
 	cur_dir = MasterListDir
 	if not os.path.exists(joining):
@@ -25,11 +29,12 @@ def usb_path(MasterListDir=""):
 		list_items = [i for i in os.walk(joining)][0]
 		items_dir = list_items[1]
 		items_file = list_items[2]
-	return render_template("browser_usb.html", items_file=items_file, items_dir=items_dir, cur_dir=cur_dir)
+	return render_template("browser_usb.html", items_file=items_file, items_dir=items_dir, cur_dir=cur_dir,usb_name=name_usb)
 
 @browser_bp.route("/usb/delete/<path:MasterListDir>")
 @browser_bp.route("/usb/delete/")
 @login_required
+@usb_detect_wrap
 def usb_delete(MasterListDir=""):
 	path = os.path.join(DATA_PATH ,MasterListDir)
 	master_path = "/".join(path.split("/")[:-1])
@@ -52,6 +57,7 @@ def usb_delete(MasterListDir=""):
 @browser_bp.route("/server/path/<path:MasterListDir>")
 @browser_bp.route("/server/path/")
 @login_required
+@usb_detect_wrap
 def server_path(MasterListDir=""):
 	ret = api.get_path(MasterListDir)
 	if "error" in ret:
@@ -62,6 +68,7 @@ def server_path(MasterListDir=""):
 @browser_bp.route("/server/delete/<path:MasterListDir>")
 @browser_bp.route("/server/delete/")
 @login_required
+@usb_detect_wrap
 def server_delete(MasterListDir=""):
 	ret = api.delete_path(MasterListDir)
 	if "error" in ret:
@@ -71,6 +78,7 @@ def server_delete(MasterListDir=""):
 @browser_bp.route("/server/download/<path:MasterListDir>")
 @browser_bp.route("/server/download/")
 @login_required
+@usb_detect_wrap
 def server_download(MasterListDir=""):
 	ret = api.download_path(MasterListDir)
 	if "error" in ret:

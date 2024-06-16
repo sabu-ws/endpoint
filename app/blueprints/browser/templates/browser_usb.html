@@ -28,7 +28,11 @@
                             <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
                             </svg>
-                            <h1 class="font-semibold text-lg text-gray-700 dark:text-white"><span>NAME_USB_KEY</span></h1>
+                            {% if usb_name is not none %}
+                            <h1 class="font-semibold text-lg text-gray-700 dark:text-white"><span>{{ usb_name }}</span></h1>
+                            {% else %}
+                            <h1 class="font-semibold text-lg text-gray-700 dark:text-white"><span>No_Name</span></h1>
+                            {% endif %}
                         </div>
 
                         <div class="flex space-x-2 p-2">
