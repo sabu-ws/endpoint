@@ -3,7 +3,7 @@ import re
 import os
 from pyudev import Context, Devices
 
-from flask import redirect, url_for
+from flask import redirect, url_for, flash
 
 from app import app
 
@@ -16,6 +16,7 @@ def usb_detect_wrap(f):
 		except:
 		  sda = None
 		if sda == None:
+			flash("Need to connect usb key","error")
 			return redirect(url_for("index.index"))
 		else:
 			return f(*args, **kwargs)
