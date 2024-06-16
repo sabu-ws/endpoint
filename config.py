@@ -8,4 +8,4 @@ TOKEN_API = DOT_ENV["TOKEN_API"]
 
 MAX_CONTENT_LENGTH = 5 * 1024 * 1024 * 1024
 
-DATA_PATH = "/mnt/usb"
+DATA_PATH = "/mnt/data"

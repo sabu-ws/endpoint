@@ -4,9 +4,17 @@ $(document).ready(function(e){
 	socket.emit("state_usb");
 	socket.on("ret_state_usb",function(data){
 		if (data){
-			console.log(data)
+			if($("#state_usb").text() != "Connected"){
+				$("#state_usb").text("Connected")
+				$("#state_usb").removeClass("text-red-500")
+				$("#state_usb").addClass("text-green-500")
+			}
 		}else{
-			console.log(data)
+			if($("#state_usb").text() != "Disconnected"){
+				$("#state_usb").text("Connected")
+				$("#state_usb").removeClass("text-red-500")
+				$("#state_usb").addClass("text-green-500")
+			}
 		}
 	})
 });
