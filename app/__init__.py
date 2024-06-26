@@ -24,6 +24,8 @@ import datetime
 log_format = "%(levelname)s [%(asctime)s] %(name)s  %(message)s"
 logging.basicConfig(format=log_format,level=logging.INFO,filename="/sabu/logs/endpoint/sabu.log",filemode="a")
 logger = logging.getLogger("sabu.endpoint")
+logger_no = logging.getLogger("werkzeug")
+logger_no.setLevel(logging.CRITICAL)
 
 
 # Flask app

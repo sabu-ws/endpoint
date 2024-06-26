@@ -22,9 +22,9 @@
 %svc-sabu ALL = (ALL) NOPASSWD: /usr/sbin/reboot
 %svc-sabu ALL = (ALL) NOPASSWD: /usr/sbin/shutdown -h now
 
-%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/bash /sabu/server/core/scripts/update_hostname.sh -n *
-%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/bash /sabu/server/core/scripts/update_ip_address.sh *
-%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/bash /sabu/server/core/scripts/get_ip_address.sh *
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/bash /sabu/endpoint/core/scripts/update_hostname.sh -n *
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/bash /sabu/endpoint/core/scripts/update_ip_address.sh *
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/bash /sabu/endpoint/core/scripts/get_ip_address.sh *
 
-%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/bash /sabu/server/core/scripts/format_standard.sh
-%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/bash /sabu/server/core/scripts/format_advanced.sh
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/bash /sabu/endpoint/core/scripts/format_standard.sh
+%svc-sabu ALL = (ALL) NOPASSWD: /usr/bin/bash /sabu/endpoint/core/scripts/format_advanced.sh
